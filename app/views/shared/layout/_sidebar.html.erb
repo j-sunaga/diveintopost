@@ -23,6 +23,15 @@
             </span>
           </div>
         <% end %>
+        <%= form_with url: agenda_search_team_agendas_path(@working_team), method: :get, local: true do |form| %>
+        <a href="#" class="d-block mb-1"><%= I18n.t('views.messages.search_agendas') %></a>
+        <div class="input-group input-group-sm">
+          <%= form.text_field :search %>
+          <span class="input-group-append">
+            <button type="submit" class="btn btn-info btn-flat"><%= I18n.t('views.button.search') %></button>
+          </span>
+        </div>
+        <% end %>
       </div>
     </div>
     <!-- Sidebar Menu -->

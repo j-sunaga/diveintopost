@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     end
     resources :assigns, only: %w(create destroy)
     resources :agendas, shallow: true do
+      get "agenda_search", on: :collection
       resources :articles do
         resources :comments
       end

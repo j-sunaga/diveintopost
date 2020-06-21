@@ -5,6 +5,11 @@ class AgendasController < ApplicationController
     @agendas = Agenda.all
   end
 
+  def agenda_search
+    @agendas = Agenda.agenda_title(params[:search])
+    render :index
+  end
+
   def new
     @team = Team.friendly.find(params[:team_id])
     @agenda = Agenda.new
