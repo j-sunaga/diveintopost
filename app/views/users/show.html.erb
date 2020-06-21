@@ -11,7 +11,9 @@
               <%= @user.email %><br>
               <%= @user.content %>
             </div>
+            <% if @user == current_user %>
             <%= link_to I18n.t('views.messages.edit_profile') , '#', class: 'btn btn-success btn-block mt-3' %>
+            <% end %>
           </div>
 
           <div class="col-md-8">
@@ -23,7 +25,11 @@
                   <tr>
                     <td><%= image_tag default_img(team.icon_url), size: '40x40' %></td>
                     <td><%= team.name %></td>
-                    <td><%= link_to I18n.t('views.messages.select_team'), team %></td>
+                    <td>
+                      <% if @user == current_user %>
+                      <%= link_to I18n.t('views.messages.select_team'), team %>
+                      <% end %>
+                    </td>
                   </tr>
                   <% end %>
                 </tbody>
