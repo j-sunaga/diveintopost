@@ -8,9 +8,12 @@
           <div class="col-md-4">
             <div>
               <%= image_tag default_img(nil), class: 'img' %><br>
-              <%= @user.email %>
+              <%= @user.email %><br>
+              <%= @user.content %>
             </div>
+            <% if @user == current_user %>
             <%= link_to I18n.t('views.messages.edit_profile') , '#', class: 'btn btn-success btn-block mt-3' %>
+            <% end %>
           </div>
 
           <div class="col-md-8">
@@ -19,11 +22,15 @@
               <table class="table">
                 <tbody>
                   <% @user.teams.each do |team| %>
-                    <tr>
-                      <td><%= image_tag default_img(team.icon_url), size: '40x40' %></td>
-                      <td><%= team.name %></td>
-                      <td><%= link_to I18n.t('views.messages.select_team'), team %></td>
-                    </tr>
+                  <tr>
+                    <td><%= image_tag default_img(team.icon_url), size: '40x40' %></td>
+                    <td><%= team.name %></td>
+                    <td>
+                      <% if @user == current_user %>
+                      <%= link_to I18n.t('views.messages.select_team'), team %>
+                      <% end %>
+                    </td>
+                  </tr>
                   <% end %>
                 </tbody>
               </table>
@@ -34,18 +41,18 @@
               <table class="table">
                 <tbody>
                   <% @user.articles.each do |article| %>
-                    <tr>
-                      <td><%= image_tag default_img(article.team.icon_url), size: '40x40' %></td>
-                      <td>
-                        <%= link_to article_path(article) do %>
-                          <span><%= article.team.name %><%= I18n.t('views.common.team') %>　</span>
-                          <span class="badge bg-primary"><%= article.agenda.title %></span>
-                          <%= article.title %>
-                        <% end %>
-                        <br>
-                        <%= l(article.created_at, format: :long) %><%= I18n.t('views.messages.posted_at') %>
-                      </td>
-                    </tr>
+                  <tr>
+                    <td><%= image_tag default_img(article.team.icon_url), size: '40x40' %></td>
+                    <td>
+                      <%= link_to article_path(article) do %>
+                      <span><%= article.team.name %><%= I18n.t('views.common.team') %>　</span>
+                      <span class="badge bg-primary"><%= article.agenda.title %></span>
+                      <%= article.title %>
+                      <% end %>
+                      <br>
+                      <%= l(article.created_at, format: :long) %><%= I18n.t('views.messages.posted_at') %>
+                    </td>
+                  </tr>
                   <% end %>
                 </tbody>
               </table>

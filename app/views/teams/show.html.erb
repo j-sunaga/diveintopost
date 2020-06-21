@@ -19,12 +19,12 @@
             <div>
               <h5><%= I18n.t('views.messages.invite_team_member') %></h5>
               <%= form_with model: :assign, scope: :post, url: team_assigns_path(@team), local: true do |form| %>
-                <div class="input-group input-group-sm">
-                  <%= text_field_tag :email, '', { class: 'form-control', placeholder: I18n.t('views.messages.invitation_placeholder') } %>
-                  <span class="input-group-append">
-                    <button type="submit" class="btn btn-info btn-flat"><%= I18n.t('views.button.invite') %></button>
-                  </span>
-                </div>
+              <div class="input-group input-group-sm">
+                <%= text_field_tag :email, '', { class: 'form-control', placeholder: I18n.t('views.messages.invitation_placeholder') } %>
+                <span class="input-group-append">
+                  <button type="submit" class="btn btn-info btn-flat"><%= I18n.t('views.button.invite') %></button>
+                </span>
+              </div>
               <% end %>
             </div>
 
@@ -33,31 +33,31 @@
               <table class="table">
                 <tr>
                   <td><%= image_tag 'default.jpg', size: '40x40' %></td>
-                  <td><label style="background-color: red"><%= I18n.t('views.messages.leader') %></label>：<%= @team.owner.email %></td>
+                  <td><label style="background-color: red"><%= I18n.t('views.messages.leader') %></label>：<%= link_to "#{@team.owner.email}", user_path(id:@team.owner.id) %></td>
                 </tr>
               </table>
               <h5><%= I18n.t('views.messages.team_members2') %></h5>
               <table class="table">
                 <tbody>
                   <% @team.assigns.each do |assign| %>
-                    <tr>
-                      <td><%= image_tag 'default.jpg', size: '40x40' %></td>
-                      <td><%= assign.user.email %></td>
-                      <% if @is_owner || assign.user_id == current_user.id %>
-                      <td><%= link_to I18n.t('views.button.delete'), team_assign_path(@team, assign), method: :delete, class: 'btn btn-sm btn-danger' %></td>
-                      <% else %> <td></td>
-                      <% end %>
-                      <td>
-                        <% if @is_owner && assign.user_id != current_user.id %>
-                        <%= form_with(model: @team, url: owner_team_path(@team) ,local: true) do |form| %>
-                        <div class="form-group">
+                  <tr>
+                    <td><%= image_tag 'default.jpg', size: '40x40' %></td>
+                    <td><%= link_to "#{assign.user.email}", user_path(id:assign.user.id) %></td>
+                    <% if @is_owner || assign.user_id == current_user.id %>
+                    <td><%= link_to I18n.t('views.button.delete'), team_assign_path(@team, assign), method: :delete, class: 'btn btn-sm btn-danger' %></td>
+                    <% else %> <td></td>
+                    <% end %>
+                    <td>
+                      <% if @is_owner && assign.user_id != current_user.id %>
+                      <%= form_with(model: @team, url: owner_team_path(@team) ,local: true) do |form| %>
+                      <div class="form-group">
                         <%= form.hidden_field :owner_id, value: assign.user_id %>
                         <%= form.submit I18n.t('views.button.owner'), class: 'btn btn-primary' %>
-                        </div>
-                        <% end %>
-                        <% end %>
-                      </td>
-                    </tr>
+                      </div>
+                      <% end %>
+                      <% end %>
+                    </td>
+                  </tr>
                   <% end %>
                 </tbody>
               </table>

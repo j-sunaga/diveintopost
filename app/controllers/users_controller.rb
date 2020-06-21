@@ -13,12 +13,16 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = current_user
+    if params[:id].blank?
+      @user = current_user
+    else
+      @user = User.find(params[:id])
+    end
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:email, :icon, :keep_team_id)
+    params.require(:user).permit(:email,:content, :icon, :keep_team_id)
   end
 end
